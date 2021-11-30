@@ -143,3 +143,6 @@ cython_debug/
 
 # images
 *.jpg
+
+# 環境
+aac_env/
