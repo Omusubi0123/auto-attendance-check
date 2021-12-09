@@ -75,7 +75,7 @@ canvas.config(yscrollcommand=ybar.set)
 canvas.yview_moveto(0)
 canvas.xview_moveto(0)
 
-RAD_button = tk.Button(
+RefAttendData_button = tk.Button(
     frame,
     text="出席状況",
     borderwidth=10,
@@ -88,7 +88,7 @@ RAD_button = tk.Button(
     command=Maniplation.RefAttendData
 )
 
-TPC_button = tk.Button(
+TakePhotoCom_button = tk.Button(
     frame,
     text="教室撮影",
     borderwidth=10,
@@ -101,7 +101,7 @@ TPC_button = tk.Button(
     command=Maniplation.TakePhotoCom
 )
 
-ST_button = tk.Button(
+SetTimetable_button = tk.Button(
     frame,
     text="時間割",
     borderwidth=10,
@@ -114,7 +114,7 @@ ST_button = tk.Button(
     command=Maniplation.SetTimetable
 )
 
-Conf_button = tk.Button(
+Configuration_button = tk.Button(
     frame,
     text="設定",
     borderwidth=10,
@@ -128,10 +128,10 @@ Conf_button = tk.Button(
 )
 
 # set widgets
-RAD_button.pack(padx=5, pady=10, side=tk.LEFT)
-TPC_button.pack(padx=5, pady=10, side=tk.LEFT)
-ST_button.pack(padx=5, pady=10, side=tk.LEFT)
-Conf_button.pack(padx=5, pady=10, side=tk.LEFT)
+RefAttendData_button.pack(padx=5, pady=10, side=tk.LEFT)
+TakePhotoCom_button.pack(padx=5, pady=10, side=tk.LEFT)
+SetTimetable_button.pack(padx=5, pady=10, side=tk.LEFT)
+Configuration_button.pack(padx=5, pady=10, side=tk.LEFT)
 
 # show main window
 if __name__ == "__main__":

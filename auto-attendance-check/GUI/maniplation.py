@@ -5,7 +5,6 @@ class Maniplation():
     def RefAttendData():
         """
         「出席状況」button was pushed
-
         Notes
         powershellを開き、出席データを格納している機器へアクセス
         
