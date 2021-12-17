@@ -1,5 +1,4 @@
 import sys
-import os
 from core.export import ClassMatesRegister, AttendanceState
 
 sys.path.append("../../..")

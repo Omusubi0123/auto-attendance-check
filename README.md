@@ -6,6 +6,9 @@
 
 Windwosではpowerhsell上で以下のコマンドを実行
 
+注意点として、この時のpythonのバージョンはmediapipeが動作可能なバージョンでなければならない。
+このプロジェクトはPython3.8での実行を想定している。
+
 ```powershell
 python -m venv aac_env
 ./aac_env/Scripts/Activate.ps1

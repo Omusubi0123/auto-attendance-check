@@ -1,20 +1,20 @@
-#GUI sub file
+# GUI sub file
 
-#ボタンクリック時の操作
-class Maniplation():
+# ボタンクリック時の操作
+class Maniplation:
     def RefAttendData():
         """
         「出席状況」button was pushed
         Notes
         powershellを開き、出席データを格納している機器へアクセス
-        
+
         """
         pass
 
     def TakePhotoCom():
         """
         「教室撮影」button was pushed
-        
+
         Notes
         powershellを開き、ラズパイにSSH接続
         →ラズパイへ撮影を命令　撮影した教室の画像を画像処理部の画像フォルダに格納する
@@ -36,4 +36,3 @@ class Maniplation():
         Notes
         """
         pass
-
