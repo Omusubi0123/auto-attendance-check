@@ -146,3 +146,6 @@ cython_debug/
 
 # 環境
 aac_env/
+
+# パスワード・個人情報等
+auto-attendance-check/core/mail_secret.toml

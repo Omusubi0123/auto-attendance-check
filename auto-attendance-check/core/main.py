@@ -1,5 +1,6 @@
 import fire
 
+
 class Commands(object):
     """
     auto-attendance-checkのAPI
@@ -9,6 +10,7 @@ class Commands(object):
     ----
     GUIの操作に対応させて必要なコマンドを作っていく
     """
+
     def AttendData():
         pass
 
