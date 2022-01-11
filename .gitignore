@@ -141,11 +141,10 @@ cython_debug/
 .vscode/
 .idea/
 
-# images
-*.jpg
-
 # 環境
 aac_env/
 
 # パスワード・個人情報等
 auto-attendance-check/core/mail_secret.toml
+auto-attendance-check/core/images/
+auto-attendance-check/core/backups/
