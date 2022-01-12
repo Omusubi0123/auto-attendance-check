@@ -3,6 +3,8 @@
 import tkinter as tk
 from tkinter import ttk
 import toml
+import owner
+import ssh
 
 
 class TimetableFrame(tk.Frame):
@@ -233,7 +235,9 @@ class TimetableFrame(tk.Frame):
                 )
             )
             start_min.append(
-                tk.Label(confirm_frame, text=self.start_min[i].get(), font=("Times", 14))
+                tk.Label(
+                    confirm_frame, text=self.start_min[i].get(), font=("Times", 14)
+                )
             )
             end_hour.append(
                 tk.Label(confirm_frame, text=self.end_hour[i].get(), font=("Times", 14))
@@ -269,18 +273,19 @@ class TimetableFrame(tk.Frame):
 
     def make_file(self, toplevel: tk.Toplevel):
         """
-        入力された時間割をフォーマットに従ったテキストファイルとして出力
+        入力された時間割をフォーマットに従った.tomlファイルとして出力
 
         【フォーマット】
-        ファイル名 : 「時間割名」.txt
-        文字種類 : UTF-8
-        1行目 : 時間割名
-        2行目 : 時間数
-        3行目 : 1時間目開始時間(例. 8 50)
-        4行目 : 1時間目終了時間(例. 10 20)
+        ファイル名 : 「時間割名」.toml
+        table_name = '時間割名'
+        class_num = '時間数'
+        "1限目開始" = '開始時間'
+        "1限目終了" = '終了時間'
         ......(時間数分記述)
+
         """
 
+        # 時間割閲覧用ファイル作成
         write_toml = {}
         write_toml["table_name"] = self.name_text.get()
         write_toml["class_num"] = str(self.timed)
@@ -291,10 +296,61 @@ class TimetableFrame(tk.Frame):
             e1 = self.end_hour[i].get()
             e2 = self.end_min[i].get()
 
-            write_toml[str(i+1) + "限目開始"] = s1 + " " + s2
-            write_toml[str(i+1) + "限目終了"] = e1 + " " + e2
+            write_toml[str(i + 1) + "限目開始"] = s1 + " " + s2
+            write_toml[str(i + 1) + "限目終了"] = e1 + " " + e2
 
-        toml.dump(write_toml, open("./class_table/" + self.name_text.get() + ".toml", mode="w", encoding="UTF-8"))
+        toml.dump(
+            write_toml,
+            open(
+                "./class_table/" + self.name_text.get() + ".toml",
+                mode="w",
+                encoding="UTF-8",
+            ),
+        )
 
+        # ラズパイ撮影用ファイル作成
+        setting = owner.Owner()
+        interval = setting.interval
+
+        enter = []
+        enter.append("# " + self.name_text.get() + " timetable\n")
+        for i in range(0, self.timed):
+            t1 = int(self.start_hour[i].get())
+            t2 = int(self.start_min[i].get())
+            e1 = int(self.end_hour[i].get())
+            e2 = int(self.end_min[i].get())
+
+            while True:
+                enter.append(
+                    str(t2) + " " + str(t1) + " * * * /home/pi/core/rpicamera.sh\n"
+                )
+
+                t2 += interval
+                if t2 >= 60:
+                    t1 += 1
+                    t2 -= 60
+
+                if t1 > e1 or (t1 == e1 and t2 >= e2):
+                    break
+
+            enter.append(
+                str(e2) + " " + str(e1) + " * * * /home/pi/core/rpicamera.sh\n"
+            )
+            enter.append("0 0 * * * python /home/pi/core/change_crontab.py\n")
+
+        with open("./photo_table/" + self.name_text.get() + ".txt", mode="w") as f:
+            f.writelines(enter)
+
+        # 作成したファイルをSSHでラズパイに送信
+        # raspberrypiのファイルのパスワードファイルの読み込み
+        with open("raspberrypi_key.txt", mode="r") as fp:
+            l_strip = [s.strip() for s in fp.readlines()]
+
+        # 呼び出すコマンド
+        cmd = 'python core/main.py "add_phototable"'
+
+        ssh.connect_SSH(
+            IP_ADDRESS=l_strip[0], USER_NAME=l_strip[1], PASSWORD=l_strip[2], CMD=cmd
+        )
 
         toplevel.destroy()

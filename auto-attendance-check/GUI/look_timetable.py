@@ -73,7 +73,6 @@ class LookTimetable(tk.Frame):
             self.name_label[i].place(x=150, y=(120 + (100 * i)))
             self.selectbox[i].place(x=300, y=(120 + (100 * i)))
 
-
         self.finish_button = tk.Button(
             self,
             text="終了",
@@ -101,7 +100,7 @@ class LookTimetable(tk.Frame):
         """
         # 指定dir内のすべてのファイルを取得
         path_list = glob.glob(dir + "/*")
-        
+
         # パスリストからファイル名を抽出
         num = len(path_list)
         name_list = []
@@ -135,12 +134,12 @@ class LookTimetable(tk.Frame):
         edit_frame.name_text.insert(0, text_name)
 
         for i in range(0, int(data["class_num"])):
-            time = data[str(i+1) + "限目開始"]
+            time = data[str(i + 1) + "限目開始"]
             start_time = time.split()
             edit_frame.start_hour[i].set(start_time[0])
             edit_frame.start_min[i].set(start_time[1])
 
-            time = data[str(i+1) + "限目終了"]
+            time = data[str(i + 1) + "限目終了"]
             end_time = time.split()
             edit_frame.end_hour[i].set(end_time[0])
             edit_frame.end_min[i].set(end_time[1])

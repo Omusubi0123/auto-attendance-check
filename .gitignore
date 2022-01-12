@@ -149,5 +149,9 @@ auto-attendance-check/core/mail_secret.toml
 auto-attendance-check/GUI/normal.txt
 auto-attendance-check/GUI/raspberrypi_key.txt
 auto-attendance-check/GUI/confirmation.toml
+auto-attendance-check/GUI/credentials.json
+auto-attendance-check/GUI/calendar_id.toml
 auto-attendance-check/core/images/
 auto-attendance-check/core/backups/
+auto-attendance-check/core/credentials.json
+auto-attendance-check/core/calendar_id.toml
