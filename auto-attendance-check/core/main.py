@@ -11,16 +11,28 @@ class Commands(object):
     GUIの操作に対応させて必要なコマンドを作っていく
     """
 
-    def AttendData():
+    def attend_data():
+        """
+        ?
+        """
         pass
 
-    def TekePhoto():
+    def teke_photo():
+        """
+        写真を撮影
+        """
         pass
 
-    def SetTimeTable():
+    def set_time_table():
+        """
+        時間割の設定
+        """
         pass
 
-    def Configuration():
+    def configuration():
+        """
+        ?
+        """
         pass
 
 
