@@ -121,7 +121,9 @@ class ConfigurationFrame(tk.Frame):
 
         edit_frame.grid(row=0, column=0, sticky="nsew")
 
-    def update(self, edit_frame: tk.Frame, mysettings: owner.Owner, change: tk.Entry) -> bool:
+    def update(
+        self, edit_frame: tk.Frame, mysettings: owner.Owner, change: tk.Entry
+    ) -> bool:
         """
         ラベルに入力された値から設定情報を更新する
 

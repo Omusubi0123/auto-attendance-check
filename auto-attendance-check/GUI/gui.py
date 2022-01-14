@@ -1,9 +1,6 @@
 # GUI main file
 # Use under Python3.8
 import tkinter as tk
-
-# from tkinter import Canvas, ttk
-from pathlib import Path
 from tkinter.constants import (
     NE,
     NW,
@@ -81,7 +78,7 @@ reference_attend_data_button = tk.Button(
     height=2,
     relief=RAISED,
     cursor="hand2",
-    command=maniplation.reference_attend_data
+    command=maniplation.reference_attend_data,
 )
 reference_attend_data_button.pack(padx=5, pady=10, side=tk.LEFT)
 
@@ -96,7 +93,7 @@ take_photo_command_button = tk.Button(
     height=2,
     relief=RAISED,
     cursor="hand2",
-    command=maniplation.take_photo_command
+    command=maniplation.take_photo_command,
 )
 take_photo_command_button.pack(padx=5, pady=10, side=tk.LEFT)
 
