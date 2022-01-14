@@ -17,7 +17,7 @@ class Commands(object):
         """
         pass
 
-    def teke_photo():
+    def take_photo():
         """
         写真を撮影
         """
