@@ -17,7 +17,7 @@ class Commands(object):
         """
         pass
 
-    def teke_photo():
+    def take_photo():
         """
         写真を撮影
         """
@@ -36,5 +36,5 @@ class Commands(object):
         pass
 
 
-if __name__ == "__main__":
+def main():
     fire.Fire(Commands)
