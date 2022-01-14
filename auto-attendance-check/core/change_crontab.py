@@ -4,13 +4,14 @@
 毎日午前0時になったらこのファイルを実行する
 """
 
-import use_google_calendar
+import google_calendar
 import datetime
 import glob
 import os
+from typing import Tuple
 
 
-def file_search(dir: str):
+def file_search(dir: str) -> Tuple[list, list, int]:
     """
     引数に指定したディレクトリ配下のファイルを探す関数
 
@@ -34,42 +35,39 @@ def file_search(dir: str):
     return path_list, name_list, num
 
 
-def main() -> bool:
+def update_schedule() -> bool:
     """
     google calendar から今日の時間割を取得し、crontabを変更する
     """
-    events = use_google_calendar.read()
+    events = google_calendar.read()
 
     if not events:
         print("No upcoming events fountd.")
         return False
 
-    now = datetime.datetime.utcnow().isoformat() + "Z"
-    time = now.split("T")
-    path_list, name_list, num = file_search("./class_table")
-    # path_list, name_list, num = file_search("./photo_table")
+    today = datetime.datetime.utcnow().strftime("%F")
+    path_list, name_list, num = file_search("./photo_table")
 
     i = 0
+    # 直近10件のイベントについて
     for event in events:
         i = 0
+        # イベントの開始時刻をstartに格納
         start = event["start"].get("dateTime", event["start"].get("date"))
-        if start in time[0]:
+        # イベントが今日の場合
+        if start in today:
+            # イベント名を持つタイムテーブルが存在するか判定
             while (i < num) and (event["summary"] != name_list[i]):
                 i += 1
+            # イベント名とタイムテーブル名が一致しなかった場合
             if i < num:
                 break
 
-    print("num==", num)
-    print("i==", i)
+    # タイムテーブル名と一致する今日のイベントが見つからなかった場合
     if event["summary"] != name_list[i]:
-        print("Couldn't find match event")
         return False
 
-    # os.system('crontab /home/pi/core/photo_table/' + event['summary'] + '.txt')
-    os.system("dir")
+    # 見つかった場合はcrontabを書き換える
+    os.system('crontab /home/pi/core/photo_table/' + event['summary'] + '.txt')
 
     return True
-
-
-if __name__ == "__main__":
-    main()

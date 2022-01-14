@@ -4,6 +4,7 @@ import datetime
 from googleapiclient.discovery import build
 import google.auth
 import toml
+from typing import Union, Tuple, Optional
 
 
 def entry(date: int, table_name: str):
@@ -16,10 +17,6 @@ def entry(date: int, table_name: str):
     """
     calendar_id, gapi_creds = auth()
     service = build("calendar", "v3", credentials=gapi_creds)
-
-    print(date[0])
-    print(date[1])
-    print(date[2])
 
     event = {
         "summary": table_name,
@@ -36,7 +33,7 @@ def entry(date: int, table_name: str):
     service.events().insert(calendarId=calendar_id, body=event).execute()
 
 
-def read():
+def read() -> Union[list, None]:
     """
     カレンダーの現在からの10件の予定を取得する
 
@@ -60,19 +57,11 @@ def read():
 
     events = events_result.get("items", [])
 
-    if not events:
-        print("No upcoming events fountd.")
-
-    for event in events:
-        start = event["start"].get("dateTime", event["start"].get("date"))
-        print(start + "   " + event["summary"])
-
     return events
 
 
-def auth():
+def auth() -> Tuple[str, google.auth.credentials.Credentials, Optional[str]]:
     SCOPES = ["https://www.googleapis.com/auth/calendar"]
-    gapi_creds = None
     gapi_creds = google.auth.load_credentials_from_file("credentials.json", SCOPES)[0]
 
     with open("calendar_id.toml", "rt") as fp:

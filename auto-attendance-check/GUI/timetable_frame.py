@@ -128,7 +128,7 @@ class TimetableFrame(tk.Frame):
         else:
             self.error_text.set("時間割名を入力してください")
 
-    def check_logic(self):
+    def check_logic(self) -> int:
         """
         入力された授業時間割が論理的に正しいか否か判定する関数
 
@@ -275,14 +275,15 @@ class TimetableFrame(tk.Frame):
         """
         入力された時間割をフォーマットに従った.tomlファイルとして出力
 
-        【フォーマット】
+
         ファイル名 : 「時間割名」.toml
+        ```toml
         table_name = '時間割名'
         class_num = '時間数'
         "1限目開始" = '開始時間'
         "1限目終了" = '終了時間'
         ......(時間数分記述)
-
+        ```
         """
 
         # 時間割閲覧用ファイル作成
