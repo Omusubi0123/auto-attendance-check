@@ -68,6 +68,6 @@ def update_schedule() -> bool:
         return False
 
     # 見つかった場合はcrontabを書き換える
-    os.system('crontab /home/pi/core/photo_table/' + event['summary'] + '.txt')
+    os.system("crontab /home/pi/core/photo_table/" + event["summary"] + ".txt")
 
     return True
