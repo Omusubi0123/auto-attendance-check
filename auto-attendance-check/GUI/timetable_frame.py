@@ -1,10 +1,10 @@
-# maniplation.py > SetTimetable() により呼び出されるフレーム
+# maniplation.py > set_timetable() により呼び出されるフレーム
 
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 import toml
 import owner
-import ssh
 
 
 class TimetableFrame(tk.Frame):
@@ -95,10 +95,10 @@ class TimetableFrame(tk.Frame):
                 )
             )
             self.label_start.append(
-                tk.Label(self, text=(str)(i + 1) + "時間目開始", font=("Times", 14))
+                tk.Label(self, text=f"{i + 1}時間目開始", font=("Times", 14))
             )
             self.label_end.append(
-                tk.Label(self, text=(str)(i + 1) + "時間目終了", font=("Times", 14))
+                tk.Label(self, text=f"{i + 1}時間目終了", font=("Times", 14))
             )
             self.label_hour.append(tk.Label(self, text="時", font=("Times", 14)))
             self.label_hour.append(tk.Label(self, text="時", font=("Times", 14)))
@@ -247,10 +247,10 @@ class TimetableFrame(tk.Frame):
             )
 
             label_start.append(
-                tk.Label(confirm_frame, text=(str)(i + 1) + "時間目開始", font=("Times", 14))
+                tk.Label(confirm_frame, text=f"{i + 1}時間目開始", font=("Times", 14))
             )
             label_end.append(
-                tk.Label(confirm_frame, text=(str)(i + 1) + "時間目終了", font=("Times", 14))
+                tk.Label(confirm_frame, text=f"{i + 1}時間目終了", font=("Times", 14))
             )
             label_hour.append(tk.Label(confirm_frame, text="時", font=("Times", 14)))
             label_hour.append(tk.Label(confirm_frame, text="時", font=("Times", 14)))
@@ -297,13 +297,13 @@ class TimetableFrame(tk.Frame):
             e1 = self.end_hour[i].get()
             e2 = self.end_min[i].get()
 
-            write_toml[str(i + 1) + "限目開始"] = s1 + " " + s2
-            write_toml[str(i + 1) + "限目終了"] = e1 + " " + e2
+            write_toml[f"{i + 1}限目開始"] = f"{s1} {s2}"
+            write_toml[f"{i + 1}限目終了"] = f"{e1} {e2}"
 
         toml.dump(
             write_toml,
             open(
-                "./class_table/" + self.name_text.get() + ".toml",
+                f"./class_table/{self.name_text.get()}.toml",
                 mode="w",
                 encoding="UTF-8",
             ),
@@ -314,7 +314,7 @@ class TimetableFrame(tk.Frame):
         interval = setting.interval
 
         enter = []
-        enter.append("# " + self.name_text.get() + " timetable\n")
+        enter.append(f"# {self.name_text.get()} timetable\n")
         for i in range(0, self.timed):
             t1 = int(self.start_hour[i].get())
             t2 = int(self.start_min[i].get())
@@ -323,7 +323,7 @@ class TimetableFrame(tk.Frame):
 
             while True:
                 enter.append(
-                    str(t2) + " " + str(t1) + " * * * /home/pi/core/rpicamera.sh\n"
+                    f"{t2} {t1} * * * aac take_photo; aac analysis\n"
                 )
 
                 t2 += interval
@@ -335,23 +335,13 @@ class TimetableFrame(tk.Frame):
                     break
 
             enter.append(
-                str(e2) + " " + str(e1) + " * * * /home/pi/core/rpicamera.sh\n"
+                f"{e2} {e1} * * * aac take_photo; aac analysis\n"
             )
-            enter.append("0 0 * * * python /home/pi/core/change_crontab.py\n")
+            enter.append("0 0 * * * aac update_crontab\n")
 
-        with open("./photo_table/" + self.name_text.get() + ".txt", mode="w") as f:
+        with open(f"./photo_table/{self.name_text.get()}.txt", mode="w") as f:
             f.writelines(enter)
 
-        # 作成したファイルをSSHでラズパイに送信
-        # raspberrypiのファイルのパスワードファイルの読み込み
-        with open("raspberrypi_key.txt", mode="r") as fp:
-            l_strip = [s.strip() for s in fp.readlines()]
-
-        # 呼び出すコマンド
-        cmd = 'python core/main.py "add_phototable"'
-
-        ssh.connect_SSH(
-            IP_ADDRESS=l_strip[0], USER_NAME=l_strip[1], PASSWORD=l_strip[2], CMD=cmd
-        )
+        messagebox.showinfo("成功", "タイムテーブルの作成に成功しました")
 
         toplevel.destroy()

@@ -1,0 +1,31 @@
+# exam timetable
+50 8 * * * aac take_photo; aac analysis
+5 9 * * * aac take_photo; aac analysis
+20 9 * * * aac take_photo; aac analysis
+35 9 * * * aac take_photo; aac analysis
+40 9 * * * aac take_photo; aac analysis
+0 0 * * * aac update_crontab
+0 10 * * * aac take_photo; aac analysis
+15 10 * * * aac take_photo; aac analysis
+30 10 * * * aac take_photo; aac analysis
+45 10 * * * aac take_photo; aac analysis
+50 10 * * * aac take_photo; aac analysis
+0 0 * * * aac update_crontab
+10 11 * * * aac take_photo; aac analysis
+25 11 * * * aac take_photo; aac analysis
+40 11 * * * aac take_photo; aac analysis
+55 11 * * * aac take_photo; aac analysis
+0 12 * * * aac take_photo; aac analysis
+0 0 * * * aac update_crontab
+20 12 * * * aac take_photo; aac analysis
+35 12 * * * aac take_photo; aac analysis
+50 12 * * * aac take_photo; aac analysis
+5 13 * * * aac take_photo; aac analysis
+10 13 * * * aac take_photo; aac analysis
+0 0 * * * aac update_crontab
+30 13 * * * aac take_photo; aac analysis
+45 13 * * * aac take_photo; aac analysis
+0 14 * * * aac take_photo; aac analysis
+15 14 * * * aac take_photo; aac analysis
+20 14 * * * aac take_photo; aac analysis
+0 0 * * * aac update_crontab
