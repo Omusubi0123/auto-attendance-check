@@ -1,10 +1,11 @@
 # google calender
 
 import datetime
+from re import T
 from googleapiclient.discovery import build
 import google.auth
 import toml
-from typing import Union, Tuple, Optional
+from typing import Tuple, Optional
 
 
 def entry(date: int, table_name: str):
@@ -33,7 +34,7 @@ def entry(date: int, table_name: str):
     service.events().insert(calendarId=calendar_id, body=event).execute()
 
 
-def read() -> Union[list, None]:
+def read() -> Optional[list[T]]:
     """
     カレンダーの現在からの10件の予定を取得する
 

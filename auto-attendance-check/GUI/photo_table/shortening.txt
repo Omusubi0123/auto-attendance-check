@@ -1,0 +1,33 @@
+# shortening timetable
+50 8 * * * aac take_photo; aac analysis
+5 9 * * * aac take_photo; aac analysis
+20 9 * * * aac take_photo; aac analysis
+35 9 * * * aac take_photo; aac analysis
+50 9 * * * aac take_photo; aac analysis
+5 10 * * * aac take_photo; aac analysis
+10 10 * * * aac take_photo; aac analysis
+0 0 * * * aac update_crontab
+20 10 * * * aac take_photo; aac analysis
+35 10 * * * aac take_photo; aac analysis
+50 10 * * * aac take_photo; aac analysis
+5 11 * * * aac take_photo; aac analysis
+20 11 * * * aac take_photo; aac analysis
+35 11 * * * aac take_photo; aac analysis
+40 11 * * * aac take_photo; aac analysis
+0 0 * * * aac update_crontab
+10 13 * * * aac take_photo; aac analysis
+25 13 * * * aac take_photo; aac analysis
+40 13 * * * aac take_photo; aac analysis
+55 13 * * * aac take_photo; aac analysis
+10 14 * * * aac take_photo; aac analysis
+25 14 * * * aac take_photo; aac analysis
+30 14 * * * aac take_photo; aac analysis
+0 0 * * * aac update_crontab
+40 14 * * * aac take_photo; aac analysis
+55 14 * * * aac take_photo; aac analysis
+10 15 * * * aac take_photo; aac analysis
+25 15 * * * aac take_photo; aac analysis
+40 15 * * * aac take_photo; aac analysis
+55 15 * * * aac take_photo; aac analysis
+0 16 * * * aac take_photo; aac analysis
+0 0 * * * aac update_crontab
