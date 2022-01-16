@@ -11,7 +11,7 @@ import os
 from typing import Tuple
 
 
-def file_search(dir: str) -> Tuple[list, list, int]:
+def file_search(dir: str) -> Tuple[list, int]:
     """
     引数に指定したディレクトリ配下のファイルを探す関数
 
@@ -32,7 +32,7 @@ def file_search(dir: str) -> Tuple[list, list, int]:
         name_list.append(name)
         print(str(i) + i)
 
-    return path_list, name_list, num
+    return name_list, num
 
 
 def update_schedule() -> bool:
@@ -42,11 +42,10 @@ def update_schedule() -> bool:
     events = google_calendar.read()
 
     if not events:
-        print("No upcoming events fountd.")
         return False
 
     today = datetime.datetime.utcnow().strftime("%F")
-    path_list, name_list, num = file_search("./photo_table")
+    name_list, num = file_search("./photo_table")
 
     i = 0
     # 直近10件のイベントについて
@@ -65,6 +64,8 @@ def update_schedule() -> bool:
 
     # タイムテーブル名と一致する今日のイベントが見つからなかった場合
     if event["summary"] != name_list[i]:
+        # crontab内の記述を消す
+        os.system("crontab /home/pi/core/photo_table/empty.txt")
         return False
 
     # 見つかった場合はcrontabを書き換える

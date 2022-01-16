@@ -13,18 +13,12 @@ class SubFrame(tk.Frame):
         super().__init__(window, width=754, height=680)
 
         # サブウィンドウのbuttonの作成
-        button_change = tk.Button(
-            self,
-            text="メインウィンドウに移動",
-            command=self.destroy
-            # command=changeMainFrame(frame)
-        )
+        button_change = tk.Button(self, text="メインウィンドウに移動", command=self.destroy)
         button_change.pack()
 
         set_timetable_button = tk.Button(
             self,
-            text="時間割の新規登録",
-            # image=new_table_img,
+            text="タイムテーブルの新規登録",
             borderwidth=10,
             padx=40,
             pady=15,
@@ -39,7 +33,7 @@ class SubFrame(tk.Frame):
 
         set_calender_button = tk.Button(
             self,
-            text="時間割の指定",
+            text="タイムテーブルの指定",
             borderwidth=10,
             padx=40,
             pady=15,
@@ -53,7 +47,7 @@ class SubFrame(tk.Frame):
 
         look_timetable_button = tk.Button(
             self,
-            text="時間割を見る",
+            text="タイムテーブルを見る",
             borderwidth=10,
             padx=40,
             pady=15,
@@ -66,3 +60,33 @@ class SubFrame(tk.Frame):
         look_timetable_button.pack(padx=5, pady=10, side=tk.TOP)
 
         self.grid(row=0, column=0, sticky="nsew")
+
+        set_subjects_button = tk.Button(
+            self,
+            text="時間割の登録・編集",
+            borderwidth=10,
+            padx=40,
+            pady=15,
+            width=12,
+            height=2,
+            relief=tk.RAISED,
+            cursor="hand2",
+            command=maniplation.set_subjects,
+        )
+
+        set_subjects_button.pack(padx=5, pady=10, side=tk.TOP)
+
+        send_tables_button = tk.Button(
+            self,
+            text="時間割・タイムテーブルの送信",
+            borderwidth=10,
+            padx=40,
+            pady=15,
+            width=12,
+            height=2,
+            relief=tk.RAISED,
+            cursor="hand2",
+            command=maniplation.send_tables,
+        )
+
+        send_tables_button.pack(padx=5, pady=10, side=tk.TOP)

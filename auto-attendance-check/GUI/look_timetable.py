@@ -19,18 +19,16 @@ class LookTimetable(tk.Frame):
         self.toplevel = new_window
 
         # 時間割フォルダ内のファイル情報を取得する
-        path_list, name_list, num = self.file_search("./class_table")
+        name_list, num = self.file_search("./class_table")
 
-        self.titlelabel = tk.Label(self, text="クリックした時間割を表示します")
+        self.titlelabel = tk.Label(self, text="クリックしたタイムテーブルを表示します")
         self.titlelabel.place(x=300, y=30)
 
         self.name_text = []
         self.name_label = []
         self.selectbox = []
 
-        print(num)
         for i in range(0, num):
-            print(i)
             self.name_text.append(tk.StringVar(self))
             self.name_text[i].set(name_list[i])
             self.name_label.append(
@@ -94,7 +92,6 @@ class LookTimetable(tk.Frame):
         引数に指定したディレクトリ配下のファイルを探す関数
 
         return:
-            path_list: パス名のリスト
             name_list: (拡張子なしの)ファイル名のリスト
             num: ファイル数
         """
@@ -108,9 +105,8 @@ class LookTimetable(tk.Frame):
             file = os.path.basename(i)
             name, ext = os.path.splitext(file)
             name_list.append(name)
-            print(str(i) + i)
 
-        return path_list, name_list, num
+        return name_list, num
 
     def look_table(self, tablename: str) -> bool:
         """
@@ -122,7 +118,7 @@ class LookTimetable(tk.Frame):
         # 指定された時間割の内容を取得
         try:
             with open(
-                "./class_table/" + tablename + ".toml", "rt", encoding="UTF-8"
+                f"./class_table/{tablename}.toml", "rt", encoding="UTF-8"
             ) as fp:
                 data = toml.load(fp)
         except FileNotFoundError as e:
@@ -134,12 +130,12 @@ class LookTimetable(tk.Frame):
         edit_frame.name_text.insert(0, text_name)
 
         for i in range(0, int(data["class_num"])):
-            time = data[str(i + 1) + "限目開始"]
+            time = data[f"{i + 1}限目開始"]
             start_time = time.split()
             edit_frame.start_hour[i].set(start_time[0])
             edit_frame.start_min[i].set(start_time[1])
 
-            time = data[str(i + 1) + "限目終了"]
+            time = data[f"{i + 1}限目終了"]
             end_time = time.split()
             edit_frame.end_hour[i].set(end_time[0])
             edit_frame.end_min[i].set(end_time[1])

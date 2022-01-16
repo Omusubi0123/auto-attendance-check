@@ -1,0 +1,41 @@
+[Monday]
+class1 = "オブジェクト指向プログラミング"
+class2 = "計算機アーキテクチャ"
+class3 = "電子回路"
+class4 = "応用数学Ⅰ"
+
+[Tuesday]
+class1 = "英語"
+class2 = "計算機ソフトウェア"
+class3 = "電磁気学"
+class4 = "比較社会史"
+
+[Wednesday]
+class1 = "応用数学Ⅱ"
+class2 = "LEI工学Ⅱ"
+class3 = "電磁気学"
+class4 = ""
+
+[Thursday]
+class1 = "離散数学"
+class2 = "体育"
+class3 = "情報理論基礎"
+class4 = "応用物理"
+
+[Friday]
+class1 = "信号処理"
+class2 = "システムプログラム"
+class3 = "電子情報工学実験実習"
+class4 = ""
+
+[Saturday]
+class1 = ""
+class2 = ""
+class3 = ""
+class4 = ""
+
+[Sunday]
+class1 = ""
+class2 = ""
+class3 = ""
+class4 = ""
