@@ -26,6 +26,7 @@ def take_photo() -> Image:
     success, image = cap.read()
     if not success:
         raise ValueError("画像の撮影に失敗")
+    cap.release()
     return image
 
 
