@@ -1,0 +1,33 @@
+# example timetable
+50 8 * * * aac take_photo; aac analysis
+5 9 * * * aac take_photo; aac analysis
+20 9 * * * aac take_photo; aac analysis
+35 9 * * * aac take_photo; aac analysis
+50 9 * * * aac take_photo; aac analysis
+5 10 * * * aac take_photo; aac analysis
+20 10 * * * aac take_photo; aac analysis
+0 0 * * * aac update_crontab
+30 10 * * * aac take_photo; aac analysis
+45 10 * * * aac take_photo; aac analysis
+0 11 * * * aac take_photo; aac analysis
+15 11 * * * aac take_photo; aac analysis
+30 11 * * * aac take_photo; aac analysis
+45 11 * * * aac take_photo; aac analysis
+0 12 * * * aac take_photo; aac analysis
+0 0 * * * aac update_crontab
+50 12 * * * aac take_photo; aac analysis
+5 13 * * * aac take_photo; aac analysis
+20 13 * * * aac take_photo; aac analysis
+35 13 * * * aac take_photo; aac analysis
+50 13 * * * aac take_photo; aac analysis
+5 14 * * * aac take_photo; aac analysis
+20 14 * * * aac take_photo; aac analysis
+0 0 * * * aac update_crontab
+30 14 * * * aac take_photo; aac analysis
+45 14 * * * aac take_photo; aac analysis
+0 15 * * * aac take_photo; aac analysis
+15 15 * * * aac take_photo; aac analysis
+30 15 * * * aac take_photo; aac analysis
+45 15 * * * aac take_photo; aac analysis
+0 16 * * * aac take_photo; aac analysis
+0 0 * * * aac update_crontab

@@ -116,7 +116,7 @@ class SubjectFrame(tk.Frame):
 
         # 最大時間数を計算
         self.class_max = 0
-        for i in range(0,7):
+        for i in range(0, 7):
             j = 0
             while (str(self.subject[i][j].get()) != "") and (j < 8):
                 j += 1
