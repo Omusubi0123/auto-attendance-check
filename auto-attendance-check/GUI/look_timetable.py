@@ -117,9 +117,7 @@ class LookTimetable(tk.Frame):
 
         # 指定された時間割の内容を取得
         try:
-            with open(
-                f"./class_table/{tablename}.toml", "rt", encoding="UTF-8"
-            ) as fp:
+            with open(f"./class_table/{tablename}.toml", "rt", encoding="UTF-8") as fp:
                 data = toml.load(fp)
         except FileNotFoundError as e:
             print(e)
