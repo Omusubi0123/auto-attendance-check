@@ -322,9 +322,7 @@ class TimetableFrame(tk.Frame):
             e2 = int(self.end_min[i].get())
 
             while True:
-                enter.append(
-                    f"{t2} {t1} * * * aac take_photo; aac analysis\n"
-                )
+                enter.append(f"{t2} {t1} * * * aac take_photo; aac analysis\n")
 
                 t2 += interval
                 if t2 >= 60:
@@ -334,9 +332,7 @@ class TimetableFrame(tk.Frame):
                 if t1 > e1 or (t1 == e1 and t2 >= e2):
                     break
 
-            enter.append(
-                f"{e2} {e1} * * * aac take_photo; aac analysis\n"
-            )
+            enter.append(f"{e2} {e1} * * * aac take_photo; aac analysis\n")
             enter.append("0 0 * * * aac update_crontab\n")
 
         with open(f"./photo_table/{self.name_text.get()}.txt", mode="w") as f:

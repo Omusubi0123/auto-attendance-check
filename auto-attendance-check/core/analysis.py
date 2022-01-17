@@ -29,7 +29,7 @@ def take_photo() -> Image:
     return image
 
 
-def face_detection(image: Image):
+def face_detection(image: Image) -> bool:
     """
     mediapipeによる顔検出を行う
 
@@ -38,15 +38,14 @@ def face_detection(image: Image):
     image : np.ndarray
         解析を行う画像
 
-    See Also
-    --------
-    desk_analysis()
+    Returns
+    -------
+    bool : 顔が検出されたらtrue、されなかったらfalse
 
     Note
     ----
-    - Dead code
-    - 使用非推奨
-    - デバッグ用に画像出力ウィンドウを起動する
+    複数の顔を認識して個人を識別することが難しいため、
+    写真を一人分に分割してその写真から顔が検出できれば出席というふうに判定
     """
     mp_face_detection = mp.solutions.face_detection
     mp_drawing = mp.solutions.drawing_utils
@@ -61,9 +60,16 @@ def face_detection(image: Image):
         image.flags.writeable = True
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
         if results.detections:
-            for detection in results.detections:
-                mp_drawing.draw_detection(image, detection)
-        cv2.imshow("MediaPipe Face Detection", cv2.flip(image, 1))
+            if __debug__:
+                # 認識した顔を画像に描画
+                for detection in results.detections:
+                    mp_drawing.draw_detection(image, detection)
+            return True
+        if __debug__:
+            # 認識した画像を表示
+            cv2.imshow("MediaPipe Face Detection", cv2.flip(image, 1))
+            cv2.waitKey(0)
+        return False
 
 
 def desk_analysis(image: Image):
@@ -79,5 +85,10 @@ def desk_analysis(image: Image):
     -------
     result
         解析した結果
+
+    Note
+    ----
+    - Dead code
+    - 使用非推奨
     """
     pass

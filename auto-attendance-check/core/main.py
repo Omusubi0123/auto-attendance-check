@@ -14,6 +14,7 @@ class SaveImage(Enum):
     LOCAL
         撮影した画像をローカルフォルダに保存する
     """
+
     GUI = auto()
     LOCAL = auto()
 
@@ -29,6 +30,7 @@ class ExportDataType(Enum):
     JSOn
         jsonの出欠状況ファイルを選択
     """
+
     CSV = auto()
     JSON = auto()
 
@@ -42,6 +44,7 @@ class Commands(object):
     ----
     GUIの操作に対応させて必要なコマンドを作っていく
     """
+
     def take_photo(save_image: SaveImage = SaveImage.LOCAL):
         """
         写真を撮影
