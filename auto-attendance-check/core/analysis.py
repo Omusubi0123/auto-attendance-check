@@ -29,6 +29,36 @@ def take_photo() -> Image:
     cap.release()
     return image
 
+def split_image(image: Image, areas: list) -> list:
+    """
+    画像を領域ごとに切り出して分割
+
+    Parameters
+    ----------
+    image : np.ndarray
+        画像データ
+    areas : list[[list[int;2], list[int;2]
+        領域データ、以下のように指定する
+        ```py
+        areas = [
+            [[0, 0], [width // 2, height // 2]],
+            [[width // 2, 0], [width, height // 2]],
+            [[0, height // 2], [width // 2, height]],
+            [[width // 2, height // 2], [width, height]]
+        ]
+        ```
+    
+    Return
+    ------
+    切り出した複数枚の画像データ
+    """
+    image_list = []
+    for area in areas:
+        [[sx, sy], [ex, ey]] = area
+        cut = image[sx:ex, sy:ey]
+        image_list.append(cut)
+    return image_list
+
 
 def face_detection(image: Image) -> bool:
     """
