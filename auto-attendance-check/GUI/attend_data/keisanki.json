@@ -1,0 +1,45 @@
+[
+    {
+        "student number": 1,
+        "name": "Izawa",
+        "attendance states": [
+            "absence"
+        ]
+        
+    },
+    {
+        "student number": 2,
+        "name": "Ishikawa",
+        "attendance states": [
+            "lateness"
+        ]
+    },
+    {
+        "student number": 3,
+        "name": "Ishizone",
+        "attendance states": [
+            "authorized absence"
+        ]
+    },
+    {
+        "student number":4,
+        "name":"Izumida",
+        "attendance states": [
+            "attend"
+        ]
+    },
+    {
+        "student number":5,
+        "name":"Ichikawa",
+        "attendance states": [
+            "none"
+        ]
+    },
+    {
+        "student number":6,
+        "name":"Itoh",
+        "attendance states": [
+            "error"
+        ]
+    }
+]
