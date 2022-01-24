@@ -95,11 +95,10 @@ def face_detection(image: Image) -> bool:
                 # 認識した顔を画像に描画
                 for detection in results.detections:
                     mp_drawing.draw_detection(image, detection)
+                # pytestでwindowを立ち上げるとエラーが起きるため、コメントアウト
+                # cv2.imshow("img", image)
+                # cv2.waitKey(0)
             return True
-        if __debug__:
-            # 認識した画像を表示
-            cv2.imshow("MediaPipe Face Detection", cv2.flip(image, 1))
-            cv2.waitKey(0)
         return False
 
 

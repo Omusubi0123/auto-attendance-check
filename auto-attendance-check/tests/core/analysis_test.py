@@ -32,11 +32,10 @@ def test_face_detection():
 # 実際に画像を表示させながらテストする場合はこれを実行する
 # pytestだと動かないのでコメントアウト
 
-import glob
 def test_split_image():
     image: str = "auto-attendance-check/tests/core/images/test.JPG"
     image: np.ndarray = cv2.imread(image)
-    height, width, _ =  image.shape
+    width, height, _ =  image.shape
     areas = [
         [[0, 0], [width // 3, height // 2]],
         [[width // 3, 0], [width, height // 2]],
@@ -45,9 +44,8 @@ def test_split_image():
     ]
     res = split_image(image, areas)
     for i, t in enumerate(res):
-        cv2.imshow(f"img{i}", t)
+        t = cv2.resize(t, (200, 200))
         print(i, face_detection(t))
-        cv2.waitKey(0)
     assert True
 test_split_image()
 """
