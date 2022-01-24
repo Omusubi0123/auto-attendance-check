@@ -1,3 +1,4 @@
+import os
 import sys
 from core.export import ClassMatesRegister, AttendanceState
 
@@ -63,10 +64,10 @@ def test_export_excel_csv():
     cmr = ClassMatesRegister(3)
     cmr.export_excel_csv()
     os.remove(f"{cmr.file_path}.csv")
-
+"""
 
 def test_export_json():
     cmr = ClassMatesRegister(3)
     cmr.export_json()
     os.remove(f"{cmr.file_path}.json")
-"""
+    assert True
