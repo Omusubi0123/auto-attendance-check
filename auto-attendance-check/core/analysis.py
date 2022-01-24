@@ -29,6 +29,36 @@ def take_photo() -> Image:
     cap.release()
     return image
 
+def split_image(image: Image, areas: list) -> list:
+    """
+    画像を領域ごとに切り出して分割
+
+    Parameters
+    ----------
+    image : np.ndarray
+        画像データ
+    areas : list[[list[int;2], list[int;2]
+        領域データ、以下のように指定する
+        ```py
+        areas = [
+            [[0, 0], [width // 2, height // 2]],
+            [[width // 2, 0], [width, height // 2]],
+            [[0, height // 2], [width // 2, height]],
+            [[width // 2, height // 2], [width, height]]
+        ]
+        ```
+    
+    Return
+    ------
+    切り出した複数枚の画像データ
+    """
+    image_list = []
+    for area in areas:
+        [[sx, sy], [ex, ey]] = area
+        cut = image[sx:ex, sy:ey]
+        image_list.append(cut)
+    return image_list
+
 
 def face_detection(image: Image) -> bool:
     """
@@ -65,11 +95,10 @@ def face_detection(image: Image) -> bool:
                 # 認識した顔を画像に描画
                 for detection in results.detections:
                     mp_drawing.draw_detection(image, detection)
+                # pytestでwindowを立ち上げるとエラーが起きるため、コメントアウト
+                # cv2.imshow("img", image)
+                # cv2.waitKey(0)
             return True
-        if __debug__:
-            # 認識した画像を表示
-            cv2.imshow("MediaPipe Face Detection", cv2.flip(image, 1))
-            cv2.waitKey(0)
         return False
 
 

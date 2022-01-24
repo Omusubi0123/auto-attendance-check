@@ -13,7 +13,7 @@ flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statist
 Write-Output ""
 
 Write-Output "----- pytest -----"
-pytest
+pytest -v -l
 Write-Output ""
 
 Write-Output "===== Done ====="
