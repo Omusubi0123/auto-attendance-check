@@ -7,7 +7,6 @@ from core.analysis import face_detection, split_image, read_areas, Image, Area
 
 sys.path.append("../../..")
 
-
 def test_read_areas():
     read_areas("auto-attendance-check/tests/core/configs/area_data.toml")
     assert True

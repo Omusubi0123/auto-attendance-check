@@ -10,7 +10,7 @@ from email import message
 import toml
 
 
-def send_mail(to: str):
+def send_mail(to: str) -> None:
     """
     欠席判定された人に欠席確認のメールを送信する
 
@@ -72,7 +72,7 @@ def send_mail(to: str):
     server.quit()
 
 
-def check_mailaddres(to: str):
+def check_mailaddres(to: str) -> None:
     """
     正規表現によってメールアドレスとして有効かどうか最低限のチェックを行う
 

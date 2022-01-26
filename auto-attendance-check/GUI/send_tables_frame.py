@@ -182,7 +182,7 @@ class SendFrame(tk.Frame):
         name_list = []
         for i in path_list:
             file = os.path.basename(i)
-            name, ext = os.path.splitext(file)
+            name, _ext = os.path.splitext(file)
             name_list.append(name)
 
         return name_list

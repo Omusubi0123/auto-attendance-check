@@ -1,12 +1,13 @@
 # google calender
 
 import datetime
+from typing import List, Tuple
 from googleapiclient.discovery import build
 import google.auth
 import toml
 
 
-def entry(date: int, table_name: str):
+def entry(date: int, table_name: str) -> None:
     """
     google calenderに時間割を登録する
 
@@ -36,7 +37,7 @@ def entry(date: int, table_name: str):
     service.events().insert(calendarId=calendar_id, body=event).execute()
 
 
-def read():
+def read() -> List:
     """
     カレンダーの現在からの10件の予定を取得する
 
@@ -70,7 +71,7 @@ def read():
     return events
 
 
-def auth():
+def auth() -> Tuple:
     SCOPES = ["https://www.googleapis.com/auth/calendar"]
     gapi_creds = None
     gapi_creds = google.auth.load_credentials_from_file("credentials.json", SCOPES)[0]

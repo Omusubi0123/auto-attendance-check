@@ -98,7 +98,7 @@ class DateFrame(tk.Frame):
         name_list = []
         for i in path_list:
             file = os.path.basename(i)
-            name, ext = os.path.splitext(file)
+            name, _ext = os.path.splitext(file)
             name_list.append(name)
 
         return name_list, num
@@ -121,10 +121,12 @@ class DateFrame(tk.Frame):
 
         has_set = ""
         for i in range(0, 3):
-                if int(date_list[i]) < 10:
-                    date_list[i] = f"0{date_list[i]}"
+            if int(date_list[i]) < 10:
+                date_list[i] = f"0{date_list[i]}"
         # 指定した日に既にタイムテーブルが登録されているかチェック
-        events = google_calendar.read(timefrom=f"20{date_list[2]}-{date_list[0]}-{date_list[1]}")
+        events = google_calendar.read(
+            timefrom=f"20{date_list[2]}-{date_list[0]}-{date_list[1]}"
+        )
         if events:
 
             check_date = f"20{date_list[2]}-{date_list[0]}-{date_list[1]}"

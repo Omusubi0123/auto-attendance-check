@@ -6,10 +6,10 @@ from re import T
 from googleapiclient.discovery import build
 import google.auth
 import toml
-from typing import Tuple, Optional
+from typing import List, Tuple, Optional
 
 
-def entry(date: list[int], table_name: str):
+def entry(date: List[int], table_name: str):
     """
     google calenderに時間割を登録する
 
@@ -35,7 +35,7 @@ def entry(date: list[int], table_name: str):
     service.events().insert(calendarId=calendar_id, body=event).execute()
 
 
-def read(timefrom:str ="") -> Optional[list[T]]:
+def read(timefrom: str = "") -> Optional[List]:
     """
     カレンダーの現在からの10件の予定を取得する
 
@@ -49,7 +49,9 @@ def read(timefrom:str ="") -> Optional[list[T]]:
     if timefrom == "":
         timefrom = datetime.datetime.utcnow().isoformat() + "Z"
     else:
-        timefrom = (datetime.datetime.strptime(timefrom, '%Y-%m-%d') - timedelta(1)).isoformat()+'Z'
+        timefrom = (
+            datetime.datetime.strptime(timefrom, "%Y-%m-%d") - timedelta(1)
+        ).isoformat() + "Z"
 
     events_result = (
         service.events()

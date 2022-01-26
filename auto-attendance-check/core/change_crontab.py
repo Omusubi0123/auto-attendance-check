@@ -8,10 +8,10 @@ import google_calendar
 import datetime
 import glob
 import os
-from typing import Tuple
+from typing import List, Tuple
 
 
-def file_search(dir: str) -> Tuple[list, int]:
+def file_search(dir: str) -> Tuple[List[str], int]:
     """
     引数に指定したディレクトリ配下のファイルを探す関数
 
@@ -28,7 +28,7 @@ def file_search(dir: str) -> Tuple[list, int]:
     name_list = []
     for i in path_list:
         file = os.path.basename(i)
-        name, ext = os.path.splitext(file)
+        name, _ext = os.path.splitext(file)
         name_list.append(name)
         print(str(i) + i)
 
