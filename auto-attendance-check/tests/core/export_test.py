@@ -1,6 +1,7 @@
 import os
 import sys
-from core.export import ClassMatesRegister, AttendanceState
+from typing import Any, MutableMapping
+from core.export import ClassMatesRegister, AttendanceState, cast_str_to_time
 
 sys.path.append("../../..")
 
@@ -14,7 +15,7 @@ def test_init():
             "attendance states": [AttendanceState.NONE.value],
         }
     ]
-    assert cmr.data == test_data
+    assert cmr.datas == test_data
 
 
 def test_insert():
@@ -47,7 +48,7 @@ def test_insert():
             ],
         },
     ]
-    assert cmr.data == test_data
+    assert cmr.datas == test_data
 
 
 """
@@ -71,3 +72,28 @@ def test_export_json():
     cmr.export_json()
     os.remove(f"{cmr.file_path}.json")
     assert True
+
+
+def test_cast_str_to_time():
+    testcase_time = [
+        "8 50",
+        "10 20",
+        "10 30",
+        "12 00",
+        "12 50",
+        "14 20"
+    ]
+    for test in testcase_time:
+        assert cast_str_to_time(test)
+
+    testcase_time = [
+        "1200",
+        "24 50",
+        "14 20 00"
+    ]
+    for test in testcase_time:
+        try:
+            cast_str_to_time(test)
+            assert False
+        except:
+            assert True

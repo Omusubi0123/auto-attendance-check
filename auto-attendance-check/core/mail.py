@@ -54,7 +54,7 @@ def send_mail(to: str):
 
     自動出欠確認プログラムです。
 
-    {datetime.datetime.now().strftime("%m月%d日 %H:%M")}の出欠確認で、欠席判定されました。
+    {datetime.datetime.now().strftime(r"%m月%d日 %H:%M")}の出欠確認で、欠席判定されました。
     もし、誤判定の場合は連絡お願いします。
     """
 
