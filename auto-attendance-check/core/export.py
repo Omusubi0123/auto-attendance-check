@@ -5,7 +5,9 @@
 from enum import Enum
 import csv
 import json
-from typing import List
+import toml
+import datetime
+from typing import Any, Dict, List, MutableMapping, Optional
 
 
 class AttendanceState(Enum):
@@ -82,7 +84,7 @@ class ClassMatesRegister:
 
         """
         self.file_path = path
-        self.data = [
+        self.datas: List[Dict[str, Any]] = [
             {
                 "student number": students_number,
                 "name": "",
@@ -91,18 +93,40 @@ class ClassMatesRegister:
             for students_number in range(1, number_of_students + 1)
         ]
 
+    def update(self, datas: List[bool]) -> None:
+        """
+        出欠データの更新を行う
+
+        Parameters
+        ----------
+        datas : List[bool]
+            画像を解析した結果のデータ
+        """
+        for data, new in zip(self.datas, datas):
+            top: str = data["attendance states"].pop()
+            if top == AttendanceState.NONE.value:
+                if new:
+                    data["attendance states"].append(AttendanceState.ATTEND.value)
+                else:
+                    data["attendance states"].append(AttendanceState.LATENESS.value)
+            elif top == AttendanceState.LATENESS.value:
+                data["attendance states"].append(AttendanceState.LATENESS.value)
+            else:
+                data["attendance states"].append(top)
+
     def insert_data(self, datas: List[AttendanceState]) -> None:
         """
         出欠データの挿入を行う
+        内部的に使用、プライベート関数
 
         Parameters
         ----------
         datas: List[AttendanceState]
             各学生の出席データ
         """
-        if len(self.data) != len(datas):
+        if len(self.datas) != len(datas):
             raise ValueError
-        for origin, new in zip(self.data, datas):
+        for origin, new in zip(self.datas, datas):
             origin["attendance states"].append(new.value)
 
     def exprot_csv(self) -> str:
@@ -118,7 +142,7 @@ class ClassMatesRegister:
                 file, ["student number", "name", "attendance state"]
             )
             writer.writeheader()
-            for parson in self.data:
+            for parson in self.datas:
                 writer.writerows(parson)
 
     def export_json(self) -> None:
@@ -130,7 +154,7 @@ class ClassMatesRegister:
         書き出すファイルのエンコードはutf-8
         """
         with open(f"{self.file_path}.json", mode="w", encoding="utf-8") as file:
-            json.dump(self.data, file, ensure_ascii=False, indent=4)
+            json.dump(self.datas, file, ensure_ascii=False, indent=4)
 
     def export_excel_csv(self) -> None:
         """
@@ -146,5 +170,72 @@ class ClassMatesRegister:
                 dialect="excel",
             )
             writer.writeheader()
-            for parson in self.data:
+            for parson in self.datas:
                 writer.writerows(parson)
+
+
+def cast_str_to_time(time: str) -> datetime.time:
+    """
+    crontabの設定ファイルとして使用している時間割データの時間から
+    datetime.time型の時間データへ型変換を行う関数
+
+    Parameters
+    ----------
+    time : str
+        crontabの設定ファイルとして使用している時間割データの時間（文字列）
+
+    Return
+    ------
+        datetime.time型の時間
+    """
+    hour, min = map(int, time.split())
+    return datetime.time(hour, min)
+
+
+def is_class(nth: int, class_table: MutableMapping[str, Any]) -> bool:
+    """
+    いまが授業中かどうか判定する関数
+
+    Parameters
+    ----------
+    nth : int
+        何時間目か
+        例: n限目ならn
+    class_table : MutableMapping[str, Any]
+        読み込んだ時間割データ
+
+    Return
+    ------
+        今がn限目だった場合にtrue、そうでなければfalse
+    """
+    start: str = f"{nth}限目開始"
+    end: str = f"{nth}限目終了"
+    start: datetime.time = cast_str_to_time(class_table[start])
+    end: datetime.time = cast_str_to_time(class_table[end])
+
+    now = datetime.datetime.now().time()
+    if start <= now and now <= end:
+        return True
+    return False
+
+
+def get_class_info(class_table_path: str) -> Optional[int]:
+    """
+    今が何限目の授業中かだどうかデータを返す
+
+    Parameters
+    ----------
+    class_table_path : str
+        時間割データのパス
+    
+    Return
+    ------
+        今が授業中であればその授業が何限目かを表す数字
+        今が授業中でなければNone
+    """
+    class_table = toml.load(open(class_table_path))
+    class_num: int = class_table["class_num"]
+    for nth in range(class_num):
+        if is_class(nth, class_table):
+            return nth
+    return None

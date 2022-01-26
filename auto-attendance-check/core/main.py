@@ -60,7 +60,10 @@ class Commands(object):
     ----
     GUIの操作に対応させて必要なコマンドを作っていく
     """
-    def take_photo(save_image: SaveImage = SaveImage.LOCAL, save_path: str = "~/aac/Photos"):
+
+    def take_photo(
+        save_image: SaveImage = SaveImage.LOCAL, save_path: str = "~/aac/Photos"
+    ):
         """
         写真を撮影
 
@@ -74,7 +77,9 @@ class Commands(object):
         """
         img = core.analysis.take_photo()
         if save_image == SaveImage.LOCAL:
-            cv2.imwrite(f"{save_path}/{datetime.now().strftime(r'%Y-%m-%d%a-%H:%M')}.jpg", img)
+            cv2.imwrite(
+                f"{save_path}/{datetime.now().strftime(r'%Y-%m-%d%a-%H:%M')}.jpg", img
+            )
         elif save_image == SaveImage.GUI:
             cv2.imwrite(f"{save_path}/outgui.jpg", img)
 

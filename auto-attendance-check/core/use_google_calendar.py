@@ -1,12 +1,20 @@
 # google calender
 
 import datetime
+<<<<<<< HEAD
+=======
+from typing import List, Tuple
+>>>>>>> 601656fe118563752c9ecbf1df6c3b1f582e1e11
 from googleapiclient.discovery import build
 import google.auth
 import toml
 
 
+<<<<<<< HEAD
 def entry(date: int, table_name: str):
+=======
+def entry(date: int, table_name: str) -> None:
+>>>>>>> 601656fe118563752c9ecbf1df6c3b1f582e1e11
     """
     google calenderに時間割を登録する
 
@@ -36,7 +44,11 @@ def entry(date: int, table_name: str):
     service.events().insert(calendarId=calendar_id, body=event).execute()
 
 
+<<<<<<< HEAD
 def read():
+=======
+def read() -> List:
+>>>>>>> 601656fe118563752c9ecbf1df6c3b1f582e1e11
     """
     カレンダーの現在からの10件の予定を取得する
 
@@ -70,7 +82,11 @@ def read():
     return events
 
 
+<<<<<<< HEAD
 def auth():
+=======
+def auth() -> Tuple:
+>>>>>>> 601656fe118563752c9ecbf1df6c3b1f582e1e11
     SCOPES = ["https://www.googleapis.com/auth/calendar"]
     gapi_creds = None
     gapi_creds = google.auth.load_credentials_from_file("credentials.json", SCOPES)[0]

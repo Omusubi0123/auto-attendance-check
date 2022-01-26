@@ -1,10 +1,17 @@
 # GUI main file
 # Use under Python3.8
 import tkinter as tk
-from tkinter.constants import (NE, NW, RAISED, X, Y,)
+from tkinter.constants import (
+    NE,
+    NW,
+    RAISED,
+    X,
+    Y,
+)
 import maniplation
 import sub_frame
 import owner
+
 
 class main_frame:
     def __init__(self):
@@ -25,16 +32,16 @@ class main_frame:
         self.frame_app = tk.Frame(self.frame)
         self.frame_app.pack(fill=tk.BOTH)
 
-
         # Canvas の作成
         self.background = tk.PhotoImage(file="AI.png")
-        self.canvas = tk.Canvas(self.frame, width=754, height=1080, scrollregion=(0, 0, 1080, 1260))
+        self.canvas = tk.Canvas(
+            self.frame, width=754, height=1080, scrollregion=(0, 0, 1080, 1260)
+        )
 
         # Canvas上に配置するframeの作成
         self.frame_canvas = tk.Frame(self.canvas, background="#000000")
         self.canvas.create_window((0, 0), window=self.frame_canvas, anchor=tk.NW)
         self.canvas.create_image(377, 540, image=self.background)
-
 
         # 水平方向のスクロールバーを作成
         self.xbar = tk.Scrollbar(self.frame, orient=tk.HORIZONTAL)
@@ -133,6 +140,7 @@ class main_frame:
         self.frame.tkraise()
 
         self.window.mainloop()
+
 
 # show main window
 if __name__ == "__main__":
