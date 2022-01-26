@@ -79,6 +79,11 @@ class ConfigurationFrame(tk.Frame):
         change.append(tk.Entry(edit_frame, width=30))
         change.append(tk.Entry(edit_frame, width=30))
 
+        change[0].insert(0, mysettings.username)
+        change[1].insert(0, mysettings.schoolname)
+        change[2].insert(0, mysettings.classname)
+        change[3].insert(0, mysettings.interval)
+
         username_label = tk.Label(edit_frame, text="ユーザーネーム : ")
         username_label.place(x=80, y=50)
         change[0].place(x=200, y=50)
@@ -163,5 +168,8 @@ class ConfigurationFrame(tk.Frame):
         self.interval_text.set(f"授業中の撮影間隔 : {str(mysettings.interval)}")
 
         edit_frame.destroy()
+        self.destroy()
+
+        messagebox.showinfo("完了", "変更しました")
 
         return True

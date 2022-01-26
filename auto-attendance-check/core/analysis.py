@@ -1,6 +1,8 @@
+from typing import List, Tuple
 import mediapipe as mp
 import cv2
 import numpy as np
+import toml
 
 # 画像を表す型エイリアス
 Image = np.ndarray
@@ -29,7 +31,49 @@ def take_photo() -> Image:
     cap.release()
     return image
 
-def split_image(image: Image, areas: list) -> list:
+
+class Area:
+    """
+    それぞれの学生の領域を管理するクラス
+
+    Attribute
+    ---------
+        id : int
+            学生番号
+        area : List[List[int]]
+            学生番号に対応した学生の顔のあるであろう領域
+            画像のうち四角形を構成する左上の座標と右下のピクセル座標を保持
+            ```py
+            [[0, 0], [200, 300]]
+            ```
+    """
+    def __init__(self, id: int, area: List[List[int]]) -> None:
+        self.id = id
+        self.area = area
+
+    def __str__(self) -> str:
+        return f"'id': {self.id}, 'area': {self.area}"
+
+
+def read_areas(path: str) -> List[Area]:
+    """
+    各学生の学生番号とその領域のある座標を読み込む
+
+    tomlファイルは以下のようなフォーマットで書く
+    ```toml
+    [[area]]
+    id = 1
+    area = [[0, 0], [200, 200]]
+    ```
+    """
+    datas: List[Area] = []
+    areas_file = toml.load(open(path))
+    for area in areas_file["area"]:
+        datas.append(Area(area["id"], area["area"]))
+    return datas
+
+
+def split_image(image: Image, areas: List[Area]) -> List[Tuple[int, Image]]:
     """
     画像を領域ごとに切り出して分割
 
@@ -37,27 +81,27 @@ def split_image(image: Image, areas: list) -> list:
     ----------
     image : np.ndarray
         画像データ
-    areas : list[[list[int;2], list[int;2]
+    areas : list[Area]
         領域データ、以下のように指定する
         ```py
         areas = [
-            [[0, 0], [width // 2, height // 2]],
-            [[width // 2, 0], [width, height // 2]],
-            [[0, height // 2], [width // 2, height]],
-            [[width // 2, height // 2], [width, height]]
+            Area(1, [[0, 0], [width // 2, height // 2]]),
+            Area(2, [[width // 2, 0], [width, height // 2]]),
+            Area(3, [[0, height // 2], [width // 2, height]]),
+            Area(4, [[width // 2, height // 2], [width, height]])
         ]
         ```
-    
+
     Return
     ------
     切り出した複数枚の画像データ
     """
-    image_list = []
+    students_list: List[Tuple[int, Image]] = []
     for area in areas:
-        [[sx, sy], [ex, ey]] = area
+        [[sx, sy], [ex, ey]] = area.area
         cut = image[sx:ex, sy:ey]
-        image_list.append(cut)
-    return image_list
+        students_list.append((area.id, cut))
+    return students_list
 
 
 def face_detection(image: Image) -> bool:
@@ -122,3 +166,28 @@ def desk_analysis(image: Image):
     - 使用非推奨
     """
     pass
+
+
+def analysis(image: Image, area_data_path: str) -> List[Tuple[int, bool]]:
+    """
+    各学生の領域情報データのパスと撮影した画像を受け取り解析を行う
+
+    Parameters
+    ----------
+    image : Image
+        画像データ
+    area_data_path : str
+        各学生の領域データをもったtomlファイルのパス
+
+    Return
+    ------
+    data : List[Tuple[int, bool]]
+        それぞれの学生の学籍番号と出席状況のペア
+    """
+    result: List[Tuple[int, bool]] = []
+    areas: List[Area] = read_areas(area_data_path)
+    students = split_image(image, areas)
+    for student in students:
+        id, img = student
+        result.append((id, face_detection(img)))
+    return result

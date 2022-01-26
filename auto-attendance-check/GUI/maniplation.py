@@ -32,7 +32,7 @@ def take_photo_command(background: tk.PhotoImage):
     """
     「教室撮影」button was pushed
     """
-    
+
     # raspberrypiのファイルのパスワードファイルの読み込み
     with open("raspberrypi_key.toml", mode="rt", encoding="UTF-8") as fp:
         data = toml.load(fp)
@@ -46,25 +46,32 @@ def take_photo_command(background: tk.PhotoImage):
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
     try:
-        client.connect(data["IP_ADDRESS"], username=data["USER_NAME"], password=data["PASS_WORD"], timeout=3.9)
+        client.connect(
+            data["IP_ADDRESS"],
+            username=data["USER_NAME"],
+            password=data["PASS_WORD"],
+            timeout=3.9,
+        )
     except Exception:
         messagebox.showerror("エラー", "ラズパイに接続できませんでした")
         return
 
     try:
         # take_photo実行
-        #client.exec_command(cmd)
+        # client.exec_command(cmd)
 
         # 撮影した画像を読み込む
         sftp_connection = client.open_sftp()
-        sftp_connection.get("/home/pi/aac/Photos/out_gui.jpg", "photo_raspi/out_gui.jpg")
+        sftp_connection.get(
+            "/home/pi/aac/Photos/out_gui.jpg", "photo_raspi/out_gui.jpg"
+        )
     except Exception:
         messagebox.showerror("エラー", "画像を取得できませんでした")
         client.close()
         return
-    
+
     messagebox.showinfo("完了", "画像を取得しました")
-    
+
     # jpg画像をtkinterで表示させられるようpng画像に変換
     im = Image.open("photo_raspi/out_gui.jpg")
     im.save("photo_raspi/out_gui.png")
@@ -72,9 +79,10 @@ def take_photo_command(background: tk.PhotoImage):
     im = Image.open("photo_raspi/out_gui.png")
     w = im.width
     h = im.height
-    im = im.resize((int(w * (754/w)), int(h * (754/w))))
+    im = im.resize((int(w * (754 / w)), int(h * (754 / w))))
     im.save("photo_raspi/out_gui.png")
-    background.config (file="photo_raspi/out_gui.png")
+    background.config(file="photo_raspi/out_gui.png")
+
 
 def set_timetable():
     """

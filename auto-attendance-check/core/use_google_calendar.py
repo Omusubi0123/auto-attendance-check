@@ -1,15 +1,13 @@
 # google calender
 
 import datetime
-from datetime import timedelta
-from re import T
+from typing import List, Tuple
 from googleapiclient.discovery import build
 import google.auth
 import toml
-from typing import List, Tuple, Optional
 
 
-def entry(date: List[int], table_name: str):
+def entry(date: int, table_name: str) -> None:
     """
     google calenderに時間割を登録する
 
@@ -19,6 +17,10 @@ def entry(date: List[int], table_name: str):
     """
     calendar_id, gapi_creds = auth()
     service = build("calendar", "v3", credentials=gapi_creds)
+
+    print(date[0])
+    print(date[1])
+    print(date[2])
 
     event = {
         "summary": table_name,
@@ -35,29 +37,21 @@ def entry(date: List[int], table_name: str):
     service.events().insert(calendarId=calendar_id, body=event).execute()
 
 
-def read(timefrom: str = "") -> Optional[List]:
+def read() -> List:
     """
     カレンダーの現在からの10件の予定を取得する
 
-    parameter:
-    num: 取得するイベントの最大数
     return: events (イベント情報のリスト)
     """
     calendar_id, gapi_creds = auth()
     service = build("calendar", "v3", credentials=gapi_creds)
 
-    if timefrom == "":
-        timefrom = datetime.datetime.utcnow().isoformat() + "Z"
-    else:
-        timefrom = (
-            datetime.datetime.strptime(timefrom, "%Y-%m-%d") - timedelta(1)
-        ).isoformat() + "Z"
-
+    now = datetime.datetime.utcnow().isoformat() + "Z"
     events_result = (
         service.events()
         .list(
             calendarId=calendar_id,
-            timeMin=timefrom,
+            timeMin=now,
             maxResults=10,
             singleEvents=True,
             orderBy="startTime",
@@ -67,11 +61,19 @@ def read(timefrom: str = "") -> Optional[List]:
 
     events = events_result.get("items", [])
 
+    if not events:
+        print("No upcoming events fountd.")
+
+    for event in events:
+        start = event["start"].get("dateTime", event["start"].get("date"))
+        print(start + "   " + event["summary"])
+
     return events
 
 
-def auth() -> Tuple[str, google.auth.credentials.Credentials, Optional[str]]:
+def auth() -> Tuple:
     SCOPES = ["https://www.googleapis.com/auth/calendar"]
+    gapi_creds = None
     gapi_creds = google.auth.load_credentials_from_file("credentials.json", SCOPES)[0]
 
     with open("calendar_id.toml", "rt") as fp:

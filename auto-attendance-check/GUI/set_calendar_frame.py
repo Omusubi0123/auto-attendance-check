@@ -98,7 +98,7 @@ class DateFrame(tk.Frame):
         name_list = []
         for i in path_list:
             file = os.path.basename(i)
-            name, ext = os.path.splitext(file)
+            name, _ext = os.path.splitext(file)
             name_list.append(name)
 
         return name_list, num
@@ -119,12 +119,15 @@ class DateFrame(tk.Frame):
             messagebox.showerror("エラー", "タイムテーブルを指定してください")
             return
 
+        has_set = ""
+        for i in range(0, 3):
+            if int(date_list[i]) < 10:
+                date_list[i] = f"0{date_list[i]}"
         # 指定した日に既にタイムテーブルが登録されているかチェック
-        events = google_calendar.read(1000)
+        events = google_calendar.read(
+            timefrom=f"20{date_list[2]}-{date_list[0]}-{date_list[1]}"
+        )
         if events:
-            for i in range(0, 3):
-                if int(date_list[i]) < 10:
-                    date_list[i] = f"0{date_list[i]}"
 
             check_date = f"20{date_list[2]}-{date_list[0]}-{date_list[1]}"
             i = 0
@@ -133,8 +136,9 @@ class DateFrame(tk.Frame):
                 i = 0
                 # イベントの開始時刻をstartに格納
                 start = event["start"].get("dateTime", event["start"].get("date"))
-                # イベントが今日の場合
+                # イベントがその日の場合
                 if start == check_date:
+                    has_set = event["summary"]
                     # イベント名を持つタイムテーブルが存在するか判定
                     while (i < self.num) and (event["summary"] != self.name_list[i]):
                         i += 1
@@ -145,7 +149,7 @@ class DateFrame(tk.Frame):
             # タイムテーブル名と一致するその日のイベントが見つからなかった場合
             try:
                 if (start == check_date) and (event["summary"] == self.name_list[i]):
-                    messagebox.showerror("エラー", "その日は既にタイムテーブルが登録されています")
+                    messagebox.showerror("エラー", f"その日は既に{has_set}が登録されています")
                     return
             except KeyError:
                 # タイトルなしのイベントの場合は無視して登録
