@@ -1,6 +1,7 @@
 # GUI main file
 # Use under Python3.8
 import tkinter as tk
+import os
 from tkinter.constants import (
     NE,
     NW,
@@ -13,8 +14,13 @@ import sub_frame
 import owner
 
 
+
 class main_frame:
     def __init__(self):
+        # パスを実行ディレクトリからこのファイルのディレクトリへ変更
+        tmp = os.getcwd()
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
         # main window の作成
         self.window = tk.Tk()
         self.window.title("MANIPLATION")
@@ -33,7 +39,7 @@ class main_frame:
         self.frame_app.pack(fill=tk.BOTH)
 
         # Canvas の作成
-        self.background = tk.PhotoImage(file="AI.png")
+        self.background = tk.PhotoImage(file="./AI.png")
         self.canvas = tk.Canvas(
             self.frame, width=754, height=1080, scrollregion=(0, 0, 1080, 1260)
         )
@@ -140,6 +146,9 @@ class main_frame:
         self.frame.tkraise()
 
         self.window.mainloop()
+
+        # パスを実行ディレクトリに戻す
+        os.chdir(tmp)
 
 
 # show main window

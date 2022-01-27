@@ -102,7 +102,7 @@ class SendFrame(tk.Frame):
         if check1 or check2 or check3:
 
             # raspberrypiのファイルのパスワードファイルの読み込み
-            with open("raspberrypi_key.toml", mode="rt", encoding="UTF-8") as fp:
+            with open("./raspberrypi_key.toml", mode="rt", encoding="UTF-8") as fp:
                 data = toml.load(fp)
 
             # SSHでラズパイに接続

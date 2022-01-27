@@ -9,7 +9,7 @@ class Owner:
     """
 
     def __init__(self):
-        with open("confirmation.toml", "rt") as fp:
+        with open("./confirmation.toml", "rt") as fp:
             data = toml.load(fp)
 
         self.username = data["username"]
@@ -42,4 +42,4 @@ class Owner:
             "classname": self.classname,
             "interval": self.interval,
         }
-        toml.dump(enter_toml, open("confirmation.toml", mode="w"))
+        toml.dump(enter_toml, open("./confirmation.toml", mode="w"))
