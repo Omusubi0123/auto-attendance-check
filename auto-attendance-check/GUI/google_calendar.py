@@ -72,9 +72,9 @@ def read(timefrom: str = "") -> Optional[List]:
 
 def auth() -> Tuple[str, google.auth.credentials.Credentials, Optional[str]]:
     SCOPES = ["https://www.googleapis.com/auth/calendar"]
-    gapi_creds = google.auth.load_credentials_from_file("credentials.json", SCOPES)[0]
+    gapi_creds = google.auth.load_credentials_from_file("./credentials.json", SCOPES)[0]
 
-    with open("calendar_id.toml", "rt") as fp:
+    with open("./calendar_id.toml", "rt") as fp:
         data = toml.load(fp)
     calendar_id = data["calendar_id"]
 

@@ -34,7 +34,7 @@ def take_photo_command(background: tk.PhotoImage):
     """
 
     # raspberrypiのファイルのパスワードファイルの読み込み
-    with open("raspberrypi_key.toml", mode="rt", encoding="UTF-8") as fp:
+    with open("./raspberrypi_key.toml", mode="rt", encoding="UTF-8") as fp:
         data = toml.load(fp)
 
     # 呼び出すコマンド
@@ -63,7 +63,7 @@ def take_photo_command(background: tk.PhotoImage):
         # 撮影した画像を読み込む
         sftp_connection = client.open_sftp()
         sftp_connection.get(
-            "/home/pi/aac/Photos/out_gui.jpg", "photo_raspi/out_gui.jpg"
+            "/home/pi/aac/Photos/out_gui.jpg", "./photo_raspi/out_gui.jpg"
         )
     except Exception:
         messagebox.showerror("エラー", "画像を取得できませんでした")
@@ -73,15 +73,15 @@ def take_photo_command(background: tk.PhotoImage):
     messagebox.showinfo("完了", "画像を取得しました")
 
     # jpg画像をtkinterで表示させられるようpng画像に変換
-    im = Image.open("photo_raspi/out_gui.jpg")
-    im.save("photo_raspi/out_gui.png")
+    im = Image.open("./photo_raspi/out_gui.jpg")
+    im.save("./photo_raspi/out_gui.png")
 
-    im = Image.open("photo_raspi/out_gui.png")
+    im = Image.open("./photo_raspi/out_gui.png")
     w = im.width
     h = im.height
     im = im.resize((int(w * (754 / w)), int(h * (754 / w))))
-    im.save("photo_raspi/out_gui.png")
-    background.config(file="photo_raspi/out_gui.png")
+    im.save("./photo_raspi/out_gui.png")
+    background.config(file="./photo_raspi/out_gui.png")
 
 
 def set_timetable():

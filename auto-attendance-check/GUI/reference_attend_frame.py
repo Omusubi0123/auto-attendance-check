@@ -104,6 +104,7 @@ class ReferenceAttendFrame(tk.Frame):
 
         self.grid(row=0, column=0, sticky="nsew")
 
+
     def read_subjects(self) -> List[str]:
         """
         時間割ファイルから科目名一覧を求めリストにする
@@ -171,10 +172,10 @@ class ReferenceAttendFrame(tk.Frame):
         self.tree.heading("authorized absence", text="公欠")
         self.tree.heading("none", text="初期状態")
         self.tree.heading("error", text="エラー")
-
+        
         # sshでラズパイから「科目名.json」ファイルを読み込む
         # raspberrypiのファイルのパスワードファイルの読み込み
-        with open("raspberrypi_key.toml", mode="rt", encoding="UTF-8") as fp:
+        with open("./raspberrypi_key.toml", mode="rt", encoding="UTF-8") as fp:
             data = toml.load(fp)
 
         # SSH接続
@@ -192,19 +193,19 @@ class ReferenceAttendFrame(tk.Frame):
         except Exception:
             messagebox.showerror("エラー", "ラズパイに接続できませんでした")
             return
-        subject = "keisanki"
+        
         try:
             # 指定した科目のファイルを読み込む
             sftp_connection = client.open_sftp()
             sftp_connection.get(
                 f"/home/pi/aac/attend_data/json/{subject}.json",
-                f"attend_data/{subject}.json",
+                f"./attend_data/{subject}.json",
             )
         except Exception:
             messagebox.showerror("エラー", "ファイルを取得できませんでした")
             client.close()
             return
-
+        
         # 出席・欠席...の回数を計算
         attend_data = self.culcu_num(subject)
         i = 0
@@ -255,8 +256,11 @@ class ReferenceAttendFrame(tk.Frame):
         ERROR = "error"
 
         # 読み込んだファイルから出席数・欠席数・等を計算
-        with open(f"attend_data/{subject}.json", mode="rt", encoding="UTF-8") as fp:
-            data = json.load(fp)
+        try:
+            with open(f"./attend_data/{subject}.json", mode="rt", encoding="UTF-8") as fp:
+                data = json.load(fp)
+        except FileNotFoundError:
+            messagebox.showerror("エラー", "指定科目のファイルが見つかりません")
 
         attend_data = []
 
